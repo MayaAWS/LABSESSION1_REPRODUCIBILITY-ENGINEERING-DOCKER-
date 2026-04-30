@@ -1,0 +1,336 @@
+
+C:\Users\user>git clone https://git.fim.uni-passau.de/koehnen/RepEng
+Cloning into 'RepEng'...
+warning: redirecting to https://git.fim.uni-passau.de/koehnen/RepEng.git/
+remote: Enumerating objects: 14, done.
+remote: Counting objects: 100% (1/1), done.
+remote: Total 14 (delta 0), reused 0 (delta 0), pack-reused 13 (from 1)
+Receiving objects: 100% (14/14), 797.71 KiB | 3.87 MiB/s, done.
+
+C:\Users\user>cd RepEng/LabSession1
+
+C:\Users\user\RepEng\LabSession1>notepad Dockerfile
+
+C:\Users\user\RepEng\LabSession1>notepad Dockerfile1
+
+C:\Users\user\RepEng\LabSession1>docker build -t lab1 .
+[+] Building 2.0s (11/11) FINISHED                             docker:desktop-linux
+ => [internal] load build definition from Dockerfile                           0.0s
+ => => transferring dockerfile: 1.17kB                                         0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:22.04                1.3s
+ => [internal] load .dockerignore                                              0.0s
+ => => transferring context: 2B                                                0.0s
+ => [1/6] FROM docker.io/library/ubuntu:22.04@sha256:962f6cadeae0ea6284001009  0.1s
+ => => resolve docker.io/library/ubuntu:22.04@sha256:962f6cadeae0ea6284001009  0.1s
+ => [internal] load build context                                              0.1s
+ => => transferring context: 816.86kB                                          0.1s
+ => CACHED [2/6] RUN apt-get update && apt-get install -y --no-install-recomm  0.0s
+ => CACHED [3/6] RUN useradd -m -G sudo -s /bin/bash repro && echo "repro:rep  0.0s
+ => CACHED [4/6] RUN usermod -a -G staff repro                                 0.0s
+ => CACHED [5/6] WORKDIR /home/repro                                           0.0s
+ => CACHED [6/6] COPY res /home/repro                                          0.0s
+ => exporting to image                                                         0.2s
+ => => exporting layers                                                        0.0s
+ => => exporting manifest sha256:5e461ee2df229dc36c08685c0dac0aac3d5548ebbed3  0.0s
+ => => exporting config sha256:23900c0546d60b6374de60b04490df2ed596c396700774  0.0s
+ => => exporting attestation manifest sha256:386e916bbfb68562f79c6764a26b2f12  0.0s
+ => => exporting manifest list sha256:28b2f28b46c37eb3be3603cf0eb6f224eee859a  0.0s
+ => => naming to docker.io/library/lab1:latest                                 0.0s
+ => => unpacking to docker.io/library/lab1:latest                              0.0s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/qkrbkuwutabeq9qfgz8tgfjji
+
+C:\Users\user\RepEng\LabSession1>docker image ls
+REPOSITORY                 TAG       IMAGE ID       CREATED         SIZE
+lab1                       latest    28b2f28b46c3   2 days ago      415MB
+lab1_intro                 latest    f8f6b047f565   2 days ago      415MB
+ubuntu                     latest    440dcf6a5640   10 months ago   117MB
+hello-world                latest    940c619fbd41   15 months ago   20.4kB
+docker/welcome-to-docker   latest    eedaff45e3c7   2 years ago     29.5MB
+
+C:\Users\user\RepEng\LabSession1>docker run -it --name lab1-cont lab1
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+repro@3127900e2baa:~$ ls -l
+total 804
+-rwxr-xr-x 1 root root 393237 Apr 23 19:46 fox.jpg
+-rwxr-xr-x 1 root root 423311 Apr 23 19:46 fox_secret.jpg
+repro@3127900e2baa:~$ sha256sum res/fox.jpg
+sha256sum: res/fox.jpg: No such file or directory
+repro@3127900e2baa:~$ certutil -hashfile res\fox.jpg SHA256
+bash: certutil: command not found
+repro@3127900e2baa:~$ certutil -hashfile res\fox_secret.jpg SHA256
+bash: certutil: command not found
+repro@3127900e2baa:~$ certutil -hashfile res\fox.jpg SHA256
+bash: certutil: command not found
+repro@3127900e2baa:~$ exit
+exit
+
+C:\Users\user\RepEng\LabSession1>dir
+ Volume in drive C is Local Disk
+ Volume Serial Number is 5884-E90C
+
+ Directory of C:\Users\user\RepEng\LabSession1
+
+04/25/2026  10:18 PM    <DIR>          .
+04/25/2026  10:18 PM    <DIR>          ..
+04/25/2026  10:15 PM             1,135 Dockerfile
+04/25/2026  10:18 PM                 0 Dockerfile1.txt
+04/25/2026  10:15 PM               324 README.md
+04/25/2026  10:15 PM    <DIR>          res
+               3 File(s)          1,459 bytes
+               3 Dir(s)  310,197,264,384 bytes free
+
+C:\Users\user\RepEng\LabSession1>cd res
+
+C:\Users\user\RepEng\LabSession1\res>dir
+ Volume in drive C is Local Disk
+ Volume Serial Number is 5884-E90C
+
+ Directory of C:\Users\user\RepEng\LabSession1\res
+
+04/25/2026  10:15 PM    <DIR>          .
+04/25/2026  10:15 PM    <DIR>          ..
+04/25/2026  10:15 PM           393,237 fox.jpg
+04/25/2026  10:15 PM           423,311 fox_secret.jpg
+               2 File(s)        816,548 bytes
+               2 Dir(s)  310,183,276,544 bytes free
+
+C:\Users\user\RepEng\LabSession1\res>certutil -hashfile fox.jpg SHA256
+SHA256 hash of fox.jpg:
+2bd512ee10c074ecd591b4697a363d3a74986a642accd2c8177b032f9ae0c6f0
+CertUtil: -hashfile command completed successfully.
+
+C:\Users\user\RepEng\LabSession1\res>certutil -hashfile fox_secret.jpg SHA256
+SHA256 hash of fox_secret.jpg:
+76b89afd22d5cb985882cfdf55fe8f1a38a556ed6a8da51ceed90bec48de9ad6
+CertUtil: -hashfile command completed successfully.
+
+C:\Users\user\RepEng\LabSession1\res>docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+C:\Users\user\RepEng\LabSession1\res>docker start lab1-cont
+lab1-cont
+
+C:\Users\user\RepEng\LabSession1\res>docker exec -it lab1-cont bash
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+repro@3127900e2baa:~$ pip3 install --user numpy pillow
+Collecting numpy
+  Downloading numpy-2.2.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.8/16.8 MB 6.3 MB/s eta 0:00:00Collecting pillow
+  Downloading pillow-12.2.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 6.5 MB/s eta 0:00:00Installing collected packages: pillow, numpy
+  WARNING: The scripts f2py and numpy-config are installed in '/home/repro/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed numpy-2.2.6 pillow-12.2.0
+repro@3127900e2baa:~$ python3 correlation.py
+python3: can't open file '/home/repro/correlation.py': [Errno 2] No such file or directory
+repro@3127900e2baa:~$ find / -name correlation.py
+find: ‘/etc/ssl/private’: Permission denied
+find: ‘/var/lib/apt/lists/partial’: Permission denied
+find: ‘/var/cache/ldconfig’: Permission denied
+find: ‘/var/cache/apt/archives/partial’: Permission denied
+find: ‘/root’: Permission denied
+find: ‘/proc/tty/driver’: Permission denied
+repro@3127900e2baa:~$ docker run -it -v %cd%:/workspace lab1
+bash: docker: command not found
+repro@3127900e2baa:~$ cd /workspace
+bash: cd: /workspace: No such file or directory
+repro@3127900e2baa:~$ python3 correlation.py
+python3: can't open file '/home/repro/correlation.py': [Errno 2] No such file or directory
+repro@3127900e2baa:~$ exit
+exit
+
+C:\Users\user\RepEng\LabSession1\res>cd C:\Users\user\RepEng\LabSession1
+
+C:\Users\user\RepEng\LabSession1>docker run -it --rm -v %cd%:/lab lab1 bash
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+repro@68e214c677fb:~$ ls /lab
+Dockerfile       README.md       res
+Dockerfile1.txt  correlation.py
+repro@68e214c677fb:~$ docker run -it --rm -v "C:\Users\user\RepEng\LabSession1:/lab" lab1 bashbash: docker: command not found
+repro@68e214c677fb:~$ docker run -it --rm -v "C:\Users\user\RepEng\LabSession1:/lab" alpine shbash: docker: command not found
+repro@68e214c677fb:~$ python3 correlation.py
+python3: can't open file '/home/repro/correlation.py': [Errno 2] No such file or directory
+repro@68e214c677fb:~$ correlation.py
+bash: correlation.py: command not found
+repro@68e214c677fb:~$ ^C
+repro@68e214c677fb:~$ docker cp lab1-cont:/home/repro/correlation.py ~
+bash: docker: command not found
+repro@68e214c677fb:~$ python3 /lab/correlation.py
+Traceback (most recent call last):
+  File "/lab/correlation.py", line 1, in <module>
+    from PIL import Image
+ModuleNotFoundError: No module named 'PIL'
+repro@68e214c677fb:~$ pip3 install pillow
+Defaulting to user installation because normal site-packages is not writeable
+Collecting pillow
+  Downloading pillow-12.2.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 5.6 MB/s eta 0:00:00Installing collected packages: pillow
+Successfully installed pillow-12.2.0
+repro@68e214c677fb:~$ python3 /lab/correlation.py
+Traceback (most recent call last):
+  File "/lab/correlation.py", line 2, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+repro@68e214c677fb:~$ pip3 install numpy
+Defaulting to user installation because normal site-packages is not writeable
+Collecting numpy
+  Downloading numpy-2.2.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.8 MB)
+     ━━━━━━━━━━━━━━━━━━━ 16.8/16.8 MB 6.3 MB/s eta 0:00:00Installing collected packages: numpy
+  WARNING: The scripts f2py and numpy-config are installed in '/home/repro/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed numpy-2.2.6
+repro@68e214c677fb:~$ python3 /lab/correlation.py
+Traceback (most recent call last):
+  File "/lab/correlation.py", line 4, in <module>
+    img1 = Image.open("res/fox.jpg")
+  File "/home/repro/.local/lib/python3.10/site-packages/PIL/Image.py", line 3635, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: 'res/fox.jpg'
+repro@68e214c677fb:~$ cd /lab
+repro@68e214c677fb:/lab$ python3 correlation.py
+Pearson correlation: 0.9999988232011107
+repro@68e214c677fb:/lab$ docker cp lab1-cont:/home/repro/correlation.py ~
+bash: docker: command not found
+repro@68e214c677fb:/lab$ docker run -it --name lab1-cont -v "C:\Users\user\RepEng\LabSession1:/lab" lab1 bash
+bash: docker: command not found
+repro@68e214c677fb:/lab$ exit
+exit
+
+C:\Users\user\RepEng\LabSession1>docker run -it --name lab1-cont -v "C:\Users\user\RepEng\LabSession1:/lab" lab1 bash
+docker: Error response from daemon: Conflict. The container name "/lab1-cont" is already in use by container "3127900e2baa5864c5c297c2695901fcaeb2ea32fe07e767d9083a1ce04212b5". You have to remove (or rename) that container to be able to reuse that name.
+
+Run 'docker run --help' for more information
+
+C:\Users\user\RepEng\LabSession1>docker start lab1-cont
+lab1-cont
+
+C:\Users\user\RepEng\LabSession1>docker exec -it lab1-cont bash
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+repro@3127900e2baa:~$ python3 correlation.py
+python3: can't open file '/home/repro/correlation.py': [Errno 2] No such file or directory
+repro@3127900e2baa:~$ correlation.py
+bash: correlation.py: command not found
+repro@3127900e2baa:~$ cd /lab
+bash: cd: /lab: No such file or directory
+repro@3127900e2baa:~$ python3 /lab/correlation.py
+python3: can't open file '/lab/correlation.py': [Errno 2] No such file or directory
+repro@3127900e2baa:~$ python3 /labSession1/correlation.py
+python3: can't open file '/labSession1/correlation.py': [Errno 2] No such file or directory
+repro@3127900e2baa:~$ labSession1/correlation.py
+bash: labSession1/correlation.py: No such file or directory
+repro@3127900e2baa:~$ exit
+exit
+
+C:\Users\user\RepEng\LabSession1>docker rm lab1-cont
+Error response from daemon: cannot remove container "lab1-cont": container is running: stop the container before removing or force remove
+
+C:\Users\user\RepEng\LabSession1>docker run -it --name lab1-cont -v "C:\Users\user\RepEng\LabSession1:/lab" lab1 bash
+docker: Error response from daemon: Conflict. The container name "/lab1-cont" is already in use by container "3127900e2baa5864c5c297c2695901fcaeb2ea32fe07e767d9083a1ce04212b5". You have to remove (or rename) that container to be able to reuse that name.
+
+Run 'docker run --help' for more information
+
+C:\Users\user\RepEng\LabSession1>docker stop lab1-cont
+lab1-cont
+
+C:\Users\user\RepEng\LabSession1>docker rm lab1-cont
+lab1-cont
+
+C:\Users\user\RepEng\LabSession1>docker run -it --name lab1-cont -v "C:\Users\user\RepEng\LabSession1:/lab" lab1 bash
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+repro@a4257f4aeca7:~$ ls /lab
+Dockerfile  Dockerfile1.txt  README.md  correlation.py  res
+repro@a4257f4aeca7:~$ cd /lab
+repro@a4257f4aeca7:/lab$ python3 correlation.py
+Traceback (most recent call last):
+  File "/lab/correlation.py", line 1, in <module>
+    from PIL import Image
+ModuleNotFoundError: No module named 'PIL'
+repro@a4257f4aeca7:/lab$ pip3 install pillow
+Defaulting to user installation because normal site-packages is not writeable
+Collecting pillow
+  Downloading pillow-12.2.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 6.0 MB/s eta 0:00:00
+Installing collected packages: pillow
+Successfully installed pillow-12.2.0
+repro@a4257f4aeca7:/lab$ python3 correlation.py
+Traceback (most recent call last):
+  File "/lab/correlation.py", line 2, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+repro@a4257f4aeca7:/lab$ pip3 install numpy
+Defaulting to user installation because normal site-packages is not writeable
+Collecting numpy
+  Downloading numpy-2.2.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.8/16.8 MB 6.3 MB/s eta 0:00:00
+Installing collected packages: numpy
+  WARNING: The scripts f2py and numpy-config are installed in '/home/repro/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed numpy-2.2.6
+repro@a4257f4aeca7:/lab$ python3 correlation.py
+Pearson correlation: 0.9999988232011107
+Edited on host.
+repro@a4257f4aeca7:/lab$ docker run -it --name lab1-cont-mount \
+>
+bash: docker: command not found
+repro@a4257f4aeca7:/lab$ mkdir C:\Users\user\lab1-mount
+repro@a4257f4aeca7:/lab$ docker run -it --name lab1-cont-mount -v "C:\Users\user\lab1-mount:/home/repro/mount" lab1 bash
+bash: docker: command not found
+repro@a4257f4aeca7:/lab$ exit
+exit
+
+C:\Users\user\RepEng\LabSession1>mkdir C:\Users\user\lab1-mount
+
+C:\Users\user\RepEng\LabSession1>docker run -it --name lab1-cont-mount -v "C:\Users\user\lab1-mount:/home/repro/mount" lab1 bash
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+repro@38a811b984ef:~$ ls /home/repro/mount
+repro@38a811b984ef:~$ C:\Users\user\lab1-mount\test.sh
+bash: C:Usersuserlab1-mounttest.sh: command not found
+repro@38a811b984ef:~$ docker exec -it lab1-cont-mount bash
+bash: docker: command not found
+repro@38a811b984ef:~$ exit
+exit
+
+C:\Users\user\RepEng\LabSession1>docker run -it --name lab1-cont-mount -v "C:\Users\user\lab1-mount:/home/repro/mount" lab1 bash
+docker: Error response from daemon: Conflict. The container name "/lab1-cont-mount" is already in use by container "38a811b984efff4f04f1c1300fd52a938076ae8ebe1c946c7e4cd5fe21403a5a". You have to remove (or rename) that container to be able to reuse that name.
+
+Run 'docker run --help' for more information
+
+C:\Users\user\RepEng\LabSession1>docker rm lab1-cont-mount
+lab1-cont-mount
+
+C:\Users\user\RepEng\LabSession1>docker stop lab1-cont-mount
+Error response from daemon: No such container: lab1-cont-mount
+
+C:\Users\user\RepEng\LabSession1>docker rm lab1-cont-mount
+Error response from daemon: No such container: lab1-cont-mount
+
+C:\Users\user\RepEng\LabSession1>docker run -it --name lab1-cont-mount -v "C:\Users\user\lab1-mount:/home/repro/mount" lab1 bash
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+repro@e2c674714711:~$ ls /home/repro/mount
+text.sh
+repro@e2c674714711:~$ chmod +x mount/test.sh
+chmod: cannot access 'mount/test.sh': No such file or directory
+repro@e2c674714711:~$ ./mount/test.sh
+bash: ./mount/test.sh: No such file or directory
+repro@e2c674714711:~$ chmod +x mount/test.sh
+chmod: cannot access 'mount/test.sh': No such file or directory
+repro@e2c674714711:~$ chmod +x mount/text.sh
+chmod: changing permissions of 'mount/text.sh': Operation not permitted
+repro@e2c674714711:~$ ./mount/text.sh
+Test passed!
+repro@e2c674714711:~$
